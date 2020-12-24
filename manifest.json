@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "Auto Like",
+  "version": "0.0.1",
+  "description": "Automatically likes youtube videos from playlists when halfway through.",
+  "icons": {
+    "16": "icons/favicon-16x16.png",
+    "32": "icons/favicon-32x32.png",
+    "150": "icons/mstile-150x150.png",
+    "192": "icons/android-chrome-192x192.png",
+    "256": "icons/android-chrome-256x256.png"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_icon": "icons/favicon-32x32.png",
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": ["storage", "webNavigation"],
+  "content_security_policy": "script-src 'self' http://localhost:8080 'unsafe-eval'; object-src 'self'"
+}
