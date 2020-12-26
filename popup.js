@@ -1,19 +1,25 @@
-console.log("Popup Scripts");
-
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
 checkboxes.forEach(checkbox => {
+  chrome.storage.sync.get(checkbox.id, res => {
+    setChecked(checkbox, res[checkbox.id]);
+  });
+
   checkbox.addEventListener("change", _ => {
-    if (checkbox.checked) {
-      checkbox.checked = true;
-      checkbox.setAttribute("aria-checked", "true");
-    } else {
-      checkbox.checked = false;
-      checkbox.setAttribute("aria-checked", "false");
-    }
+    if (checkbox.checked) setAriaChecked(checkbox, true);
+    else setAriaChecked(checkbox, false);
 
     chrome.storage.sync.set({
       [checkbox.id]: checkbox.checked
     });
   });
 });
+
+function setAriaChecked(checkbox, value) {
+  checkbox.setAttribute("aria-checked", `${value}`);
+}
+
+function setChecked(checkbox, value) {
+  checkbox.checked = value;
+  setAriaChecked(checkbox, value);
+}
